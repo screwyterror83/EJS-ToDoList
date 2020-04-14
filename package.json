@@ -1,0 +1,26 @@
+{
+  "name": "ejs-todolist-v1",
+  "version": "1.0.0",
+  "description": "Putting knowledges learnt so far to build a ToDo List.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/screwyterror83/EJS-ToDoList.git"
+  },
+  "keywords": [
+    "todolist"
+  ],
+  "author": "Darren Z",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/screwyterror83/EJS-ToDoList/issues"
+  },
+  "homepage": "https://github.com/screwyterror83/EJS-ToDoList#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
