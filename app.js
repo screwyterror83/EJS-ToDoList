@@ -8,10 +8,13 @@ const app = express();
 const items = [];
 const workItems = [];
 
+/* enable ejs frame work inside main js file */
 app.set("view engine", "ejs");
 
+/* express server will server static files after moving files to "public" directory*/
 app.use(express.static("public"));
 
+/* parse post data */
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
@@ -19,7 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   
   let day = date.getDate()
-  /* render the file name "list.ejs" under "view/" directory*/
+  /* render the file name "list.ejs" under "view/" directory.a
+  use ejs file to replace html file, but ejs file have same functionality of html files*/
   res.render("list", { listTitle: day, newListItems: items });
   
 });
