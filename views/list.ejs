@@ -3,30 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS style -->
+  <link rel="stylesheet" href="css/styles.css">
+
   <title>My ToDo List</title>
 </head>
 <body>
-  
-<h1> <%= whichDay %> </h1>
-  
-<ul>
-  <% for (let i = 0; i < newListItems.length; i++) { %>
-    <li> <%= newListItems[i] %> </li>
-  <% } %>
-</ul>
+  <div class="box" id="heading">
+    <h1> <%= listTitle %> </h1>
 
-<table width=500>
-  <form action="/" method="POST" onreset="">
-  <tr>
-    <td><input type="text" name="newItem" placeholder="New Item on ToDo List"></td>
-    <td><button type="submit">Add Item</button></td>
-    <td><input type="reset" name="reset"/></td>
-  </tr>
-  <tr>
-    
-  </tr>
-  </form>
-</table>
+  </div>
+
+  
+<div class="box">
+
+    <% for (let i = 0; i < newListItems.length; i++) { %>
+
+    <div class="item">
+      <input type="checkbox" name="" id="">
+        <p> <%= newListItems[i] %></p>
+    </div>
+  <% } %>
+
+  <table class="item" width=500>
+    <form action="/" method="POST" onreset="">
+      <tr>
+        <td><input type="text" name="newItem" placeholder="New Item" autocomplete="off"></td>
+        <td><button type="submit" name="list" value=<%= listTitle %>  >+</button></td>
+      </tr>
+    </form>
+  </table>
+
+
+
+</div>
+
+
+
 
 </body>
 </html>

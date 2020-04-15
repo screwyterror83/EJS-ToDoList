@@ -5,8 +5,9 @@ const https = require("https");
 const app = express();
 
 const items = [];
+const workItems = [];
 
-app.set("view engine", "ejs")
+app.set("view engine", "ejs");
 
 app.use(express.static("public"));
 
@@ -31,23 +32,30 @@ app.get("/", (req, res) => {
 
 
   /* render the file name "list.ejs" under "view/" directory*/
-  res.render("list", { whichDay: day, newListItems: items });
+  res.render("list", { listTitle: day, newListItems: items });
   
 });
 
 app.post("/", (req, res) => {
   
-  items.push(req.body.newItem);
+  console.log(req.body);
 
-  console.log(items);
+  let item = req.body.newItem;
 
-  res.redirect("/");
+  if (req.body.list === "Work") {
+    workItems.push(item);
+    res.redirect("/work")
+  } else {
+    items.push(item);
+    res.redirect("/");
+  }
+
 });
 
 
-
-
-
+app.get("/work", (req, res) => {
+  res.render("list", { listTitle: "Work List", newListItems: workItems });
+})
 
 
 app.listen(process.env.PORT || 3000, () => {
