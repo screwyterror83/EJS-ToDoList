@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My ToDo List</title>
+</head>
+<body>
+  
+<h1> <%= whichDay %> </h1>
+  
+<ul>
+  <% for (let i = 0; i < newListItems.length; i++) { %>
+    <li> <%= newListItems[i] %> </li>
+  <% } %>
+</ul>
+
+<table width=500>
+  <form action="/" method="POST" onreset="">
+  <tr>
+    <td><input type="text" name="newItem" placeholder="New Item on ToDo List"></td>
+    <td><button type="submit">Add Item</button></td>
+    <td><input type="reset" name="reset"/></td>
+  </tr>
+  <tr>
+    
+  </tr>
+  </form>
+</table>
+
+</body>
+</html>

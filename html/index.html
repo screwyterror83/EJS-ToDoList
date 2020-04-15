@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My ToDo List</title>
-  <link rel="stylesheet" href="../public/css/style.css">
-
 </head>
-<body>
-  <h1>Boo! It's not weekend yet.</h1>
-  <p>I still have to work. </p>
 
-    <h1>Boo! It's not weekend yet.</h1>
-    <p>I still have to work. </p>
-    
-    <h1>Boo! It's not weekend yet.</h1>
-    <p>I still have to work. </p>
+<body>
+
+  <h1> <%= whichDay %> </h1>
+
+  <ul>
+    <li></li>
+    <li><%= newListItem %> </li>
+  </ul>
+
+  <table width=500>
+    <form action="/" method="POST">
+      <tr>
+        <td><input type="text" name="newItem" placeholder="New Item on ToDo List"></td>
+        <td><button type="submit">Add Item</button></td>
+      </tr>
+    </form>
+  </table>
+
 </body>
+
 </html>

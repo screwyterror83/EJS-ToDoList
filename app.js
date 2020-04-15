@@ -4,6 +4,8 @@ const https = require("https");
 
 const app = express();
 
+const items = [];
+
 app.set("view engine", "ejs")
 
 app.use(express.static("public"));
@@ -16,18 +18,31 @@ app.get("/", (req, res) => {
   
 
   let today = new Date();
-  let currentDay = today.getDay();
 
-  if (currentDay === 6 || currentDay === 0) {
-    res.write("<h1>Yey, it's the weekend ~! </h1>");
-    res.write("<p>That means I don't have to work.</p>");
-  } else {
-    res.sendFile(__dirname + "/html/index.html");
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   }
+
+  let day = today.toLocaleDateString("en-US", options);
+
+
+
+  /* render the file name "list.ejs" under "view/" directory*/
+  res.render("list", { whichDay: day, newListItems: items });
   
-})
+});
 
+app.post("/", (req, res) => {
+  
+  items.push(req.body.newItem);
 
+  console.log(items);
+
+  res.redirect("/");
+});
 
 
 
