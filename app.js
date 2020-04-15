@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const https = require("https");
+const date = require(__dirname + "/date.js");
 
 const app = express();
 
@@ -17,20 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   
-
-  let today = new Date();
-
-  const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }
-
-  let day = today.toLocaleDateString("en-US", options);
-
-
-
+  let day = date.getDate()
   /* render the file name "list.ejs" under "view/" directory*/
   res.render("list", { listTitle: day, newListItems: items });
   
