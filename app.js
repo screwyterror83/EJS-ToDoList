@@ -1,8 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const https = require("https");
+const _ = require("lodash");
 const mongoose = require("mongoose");
 // const date = require(__dirname + "/date.js");
+
+/* doesn't seem to need https module now. */
+// const https = require("https");
+
 
 
 const app = express();
@@ -37,13 +41,6 @@ const itemSchema = new mongoose.Schema({
 const Item = mongoose.model("Item", itemSchema);
 /* model creation: const <> = mongoose.model(<"singularCollectionName">, <schemaName>) */
 
-const listSchema = new mongoose.Schema({
-  name: String,
-  item: [itemSchema]
-});
-
-const List = mongoose.model("List", listSchema)
-
 /* this will use MongoDB instead of static array to store data */
 // const items = [];
 // const workItems = [];
@@ -53,15 +50,21 @@ const item1 = new Item({
 });
 
 const item2 = new Item({
-  name: "You can write down a thing you want to do."
+  name: "Click + to add the new item you entered."
 });
 
 const item3 = new Item({
-  name: "This will be stored in MongoDB"
+  name: "Check the checkbox to delete the default items"
 })
 
 const defaultItems = [item1, item2, item3]
 
+const listSchema = new mongoose.Schema({
+  name: String,
+  items: [itemSchema],
+});
+
+const List = mongoose.model("List", listSchema);
 
 
 app.get("/", (req, res) => {
@@ -108,8 +111,37 @@ app.get("/", (req, res) => {
 app.get("/:listName", (req, res) => {
   /* Dynamic route name using express parameter feature */
   console.log(req.params.listName);
-  const listName = _.kebabCase(req.params.listName);
+  const listName = req.params.listName;
 
+  List.findOne({
+    name: listName
+  }, (err, foundList) => {
+    if (!err) {
+      if (!foundList) {
+        const list = new List({
+          name: listName,
+          items: defaultItems
+        });
+        list.save();
+        res.redirect("/"+listName)
+      } else {
+        res.render("list", {
+          listTitle: foundList.name,
+          newListItems: foundList.items,
+        });
+      }
+    }
+  });
+
+
+
+
+
+
+  // res.render("list", {
+  //       listTitle: listName,
+  //       newListItems: listItem
+  //     });
   // res.render("list", {
   //   listTitle: "Work List",
   //   newListItems: workItems
@@ -125,20 +157,32 @@ app.post("/", (req, res) => {
 
   console.log(req.body);
 
-  let itemName = req.body.newItem;
+  const itemName = req.body.newItem;
+  const listName = req.body.list;
 
   const item = new Item({
     name: itemName
   });
 
+  if (listName === "Today") {
+    item.save();
+    res.redirect("/");
+  } else {
+    List.findOne({ name: listName }, (err, foundList) => {
+      foundList.items.push(item);
+      foundList.save();
+      res.redirect("/"+ listName)
+    })
+  }
+
   /* ".save()" method will work as native MongoDB method ".insertOne()", 
   the purpose of this ".save()" method is as its name, save the document \
   to collection.*/
-  item.save()
+  
 
   /* alway use res.redirect("/") to go back to home page in order to refresh
   load of DB documents to show up */
-  res.redirect("/")
+  
   /* COMMENT out ordinary add item, since this is no longer a static array 
   declared in the beginning of this code. */
   // if (req.body.list === "Work") {
@@ -152,15 +196,15 @@ app.post("/", (req, res) => {
 });
 
 app.post("/delete", (req, res) => {
-  
+
   /* created new route "/delete" based on list.ejs, use "_id" as identifier to determine
   if item in collection can be deleted. */
 
   const checkItemId = req.body.checkedBox;
   console.log(req.body.checkedBox);
 
-/* Here can use deleteOne method or to use findByIdAndRemove method */
-  
+  /* Here can use deleteOne method or to use findByIdAndRemove method */
+
   Item.findByIdAndRemove(checkItemId, (err) => {
     if (err) {
       console.log(err);
@@ -171,7 +215,7 @@ app.post("/delete", (req, res) => {
   });
 
   /* either of these should work, but .findByIdAndRemove would be more straightforward. */
-  
+
   // Item.deleteOne({ _id: checkItemId }, (err) => {
   //   if (err) {
   //     console.log(err)
@@ -180,7 +224,7 @@ app.post("/delete", (req, res) => {
   //     res.redirect("/");
   //   }
   // });
-  
+
 })
 
 
