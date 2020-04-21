@@ -1,33 +1,38 @@
-<%- include("header") -%> 
+<%- include("header") -%>
 
-  <div class="box" id="heading">
-    <h1> <%= listTitle %> </h1>
+<div class="box" id="heading">
+  <h1> <%= listTitle %> </h1>
 
-  </div>
+</div>
 
 
-  <div class="box">
+<div class="box">
+  <!-- previously using for loop, and implementing forEach loop below instead -->
+  <%# for (let i = 0; i < newListItems.length; i++) { %>
+  <%#= newListItems[i].name %>
+  <%# } %>
 
-    <% for (let i = 0; i < newListItems.length; i++) { %>
-
+  <%  newListItems.forEach((newListItem) => { %>
+  <form action="/delete" method="post">
     <div class="item">
-      <input type="checkbox" name="" id="">
-      <p> <%= newListItems[i] %></p>
+      <input type="checkbox" name="checkedBox" value=<%= newListItem._id %> onChange="this.form.submit()">
+      <p> <%= newListItem.name %></p>
     </div>
-    <% } %>
+  </form>
 
-    <table class="item" width=500>
-      <form action="/" method="POST" onreset="">
-        <tr>
-          <td><input type="text" name="newItem" placeholder="New Item" autocomplete="off"></td>
-          <td><button type="submit" name="list" value=<%= listTitle %>>+</button></td>
-        </tr>
-      </form>
-    </table>
+  <% }) %>
+
+  <table width=500>
+    <form class="item" action="/" method="POST" onreset="">
+      <tr>
+        <td><input type="text" name="newItem" placeholder="New Item" autocomplete="off"></td>
+        <td><button class="itemSubmit" type="submit" name="list" value=<%= listTitle %>>+</button></td>
+      </tr>
+    </form>
+  </table>
 
 
 
-  </div>
+</div>
 
 <%- include("footer") -%>
-
