@@ -15,6 +15,9 @@
   ],
   "author": "Darren Z",
   "license": "MIT",
+  "engines": {
+    "node": "12.16.2"
+  },
   "bugs": {
     "url": "https://github.com/screwyterror83/EJS-ToDoList/issues"
   },
